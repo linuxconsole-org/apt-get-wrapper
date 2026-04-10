@@ -6,3 +6,6 @@ test:
 clean:
 	echo clean
 	rm -fR ${HOME}/.local/*
+
+extract:
+	bash extract.sh > list.txt

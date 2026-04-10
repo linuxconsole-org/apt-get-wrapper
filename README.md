@@ -3,3 +3,5 @@
 > Used from Your Distrofromscratch / LinuxConsole project
 
 > Unbuntu repositories since Debian is using a javascript control access to download files
+
+grep flatpak_1.14.6-1ubuntu0.1 /var/lib/apt/lists/*
