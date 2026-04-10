@@ -1,7 +1,7 @@
 all:	
 	echo Choose option
 test:
-	QUIET=ON ${PWD}/bin/apt-get install flatpak
+	QUIET=ON ${PWD}/bin/apt-get install vim
 	
 clean:
 	echo clean
