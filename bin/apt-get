@@ -1,13 +1,41 @@
 #!/bin/bash
 
+APTGET=$PWD/$0
+
+function ask_question()
+{
+  if [ "$DISPLAY" = "" ]
+  then
+    dialog --yesno "$1" 12 60
+  else
+    zenity zenity --question --text="$1"
+  fi
+  return $?
+}
+
+function print_warning_message()
+{
+  echo "Parameter #1 is $1"
+  if [ "$DISPLAY" = "" ]
+  then
+    dialog --msgbox "$1" 12 60
+  else
+    zenity --info --text="$1"
+  fi
+}
+
+
 if [ "$1" != "install" ]
 then
  echo "usage : apt-get install package_name"
  exit 1
 fi
 
-[ -e $HOME/.local/tmp/$2 ] && zenity --info --text="$2 already installed" && exit 1
-zenity --info --text="Installing $2, if it fails, look at https://github.com/yledoare/apt-get"
+DIALOG=zenity
+
+[ -e $HOME/.local/tmp/$2 ] && print_warning_message "$2 already installed" && exit 1
+
+print_warning_message  "Installing $2, if it fails, \n create an issue on https://github.com/linuxconsole-org/apt-get-wrapper"
 
 cd $HOME
 install -d .local/bin
@@ -30,7 +58,7 @@ fi
 
 if [ "$URL" = "" ]
 then
-  zenity --info --text="Error : deb not found for $2"
+  $DIALOG --info --text="Error : deb not found for $2"
   exit 1
 fi
 
@@ -41,7 +69,7 @@ DEB=$(basename $URL)
 wget $URL
 if [ "$?" != 0 ]
 then
-  zenity --info --text="Error when downloading $URL"
+  $DIALOG --info --text="Error when downloading $URL"
   exit 1
 fi
 
@@ -70,7 +98,7 @@ ar -x $HOME/.local/$DEB control.tar.zst || exit 3
 # extract control
 unzstd control.tar.zst || exit 1
 tar xvf control.tar || exit 1
-[ $? != 0 ] &&  zenity --info --error="Tar failed" && exit 1
+[ $? != 0 ] &&  $DIALOG --info --error="Tar failed" && exit 1
 DEPS=$(grep Depends control | cut -d: -f2,3,4,5)
 
 echo "Dep list : $DEPS"
@@ -122,8 +150,8 @@ do
   if [ ! -e "$HOME/.local/tmp/$element" ]
   then
 	echo "Running apt-get install $element"
-	zenity --question --text="Install $element ?" && /fix/apt-get install $element
+	ask_question "Install $element ?" && $APTGET install $element
   fi
 done
 rm $HOME/.local/$DEB
-zenity --info --text="$DEB installed"
+print_warning_message "$DEB installed"
