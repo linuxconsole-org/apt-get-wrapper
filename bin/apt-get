@@ -79,8 +79,8 @@ fi
 if [ "$URL" = "" ]
 then
   print_error_message "Error : deb not found for $2"
-  exit 4
-  # URL=http://packages.linuxmint.com/pool/main/a/aptkit/aptkit_1.0.4_all.deb
+  URL=$(grep "$2:" list.txt |cut -d':' -f2,3,4)
+  [ "$URL" == "" ] && exit 4
 fi
 
 DEB=$(basename $URL)

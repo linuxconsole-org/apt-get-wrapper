@@ -1,7 +1,7 @@
 all:	
 	echo Choose option
 test:
-	QUIET=ON ${PWD}/bin/apt-get install vim
+	QUIET=ON ${PWD}/bin/apt-get install a2ps
 	
 clean:
 	echo clean
