@@ -64,8 +64,8 @@ if [ "$ARCH" = "x86" ]
 then
   wget https://packages.debian.org/bookworm/i386/$2/download  
 else
-  DOWNLOAD="https://packages.ubuntu.com/$UBUNTU/amd64/$2/download"
   DOWNLOAD="https://packages.debian.org/$DEBIAN/amd64/$2/download"
+  DOWNLOAD="https://packages.ubuntu.com/$UBUNTU/amd64/$2/download"
   echo $DOWNLOAD
   wget $DOWNLOAD
 fi
