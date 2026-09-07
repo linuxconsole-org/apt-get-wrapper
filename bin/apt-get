@@ -54,7 +54,7 @@ fi
 install -d $HOME/.local
 cp list.txt $HOME/.local | exit 3
 
-[ -e $HOME/.local/tmp/$2 ] && print_error_message "$2 already installed" && exit 0
+[ -e $HOME/.local/tmp/$2 ] && print_warning_message "$2 already installed" && exit 0
 
 print_warning_message  "Installing $2, if it fails, \n create an issue on https://github.com/linuxconsole-org/apt-get-wrapper"
 
@@ -81,6 +81,7 @@ cd $HOME/.local
 #extract
 [ -e control.tar ] && rm control.tar
 [ -e data.tar ] && rm data.tar
+[ -e debian-binary ] && rm debian-binary
 
 ar -x $DEB || exit 6
 
