@@ -7,4 +7,4 @@ clean:
 	rm -fR ${HOME}/.local/*
 
 list.txt:
-	bash extract.sh > list.txt
+	docker-compose up
