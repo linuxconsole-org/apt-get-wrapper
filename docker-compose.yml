@@ -1,0 +1,7 @@
+services:
+    extract-deb-url:
+        build: .
+        volumes:
+         - ./:/tmp
+           # entrypoint: /bin/bash /tmp/extract.sh > /tmp/list.txt
+        entrypoint: tail -f /dev/null
