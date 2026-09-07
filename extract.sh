@@ -24,5 +24,5 @@ fi
 cat $LIST | while read line
 do
   echo $line | grep Package >/dev/null && PACKAGE=$(echo $line | cut -d':' -f2)
-  echo $line | grep Filename >/dev/null && FILENAME=$(echo $line | tr -d ' ' | cut -d':' -f2) && echo $PACKAGE:$URL/$FILENAME # && break
+  echo $line | grep Filename >/dev/null && FILENAME=$(echo $line | tr -d ' ' | cut -d':' -f2) && echo :$PACKAGE:$URL/$FILENAME # && break
 done

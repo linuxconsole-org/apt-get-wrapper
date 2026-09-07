@@ -51,7 +51,10 @@ then
  exit 2 
 fi
 
-[ -e $HOME/.local/tmp/$2 ] && print_error_message "$2 already installed" && exit 3
+install -d $HOME/.local
+cp list.txt $HOME/.local | exit 3
+
+[ -e $HOME/.local/tmp/$2 ] && print_error_message "$2 already installed" && exit 0
 
 print_warning_message  "Installing $2, if it fails, \n create an issue on https://github.com/linuxconsole-org/apt-get-wrapper"
 
@@ -59,29 +62,8 @@ cd $HOME
 install -d .local/bin
 cd .local
 
-[ -e download ] && rm download
-if [ "$ARCH" = "x86" ]
-then
-  wget https://packages.debian.org/bookworm/i386/$2/download  
-else
-  DOWNLOAD="https://packages.debian.org/$DEBIAN/amd64/$2/download"
-  DOWNLOAD="https://packages.ubuntu.com/$UBUNTU/amd64/$2/download"
-  echo $DOWNLOAD
-  wget $DOWNLOAD
-fi
-
-URL=$(grep fr.archive.ubuntu.com download | cut -d '"' -f2)
-if [ "$URL" = "" ]
-then
-  URL=$( grep http://security.debian.org/debian-security/ download  | cut -d '"' -f2)
-fi
-
-if [ "$URL" = "" ]
-then
-  print_error_message "Error : deb not found for $2"
-  URL=$(grep "$2:" list.txt |cut -d':' -f2,3,4)
-  [ "$URL" == "" ] && exit 4
-fi
+URL=$(grep ":$2:" $HOME/.local/list.txt |cut -d':' -f2,3,4)
+[ "$URL" == "" ] && exit 4
 
 DEB=$(basename $URL)
 [ -e "$DEB" ] && rm $DEB  

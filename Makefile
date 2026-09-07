@@ -1,5 +1,4 @@
-all:	
-	echo Choose option
+all: list.txt	
 test:
 	QUIET=ON ${PWD}/bin/apt-get install a2ps
 	
@@ -7,5 +6,5 @@ clean:
 	echo clean
 	rm -fR ${HOME}/.local/*
 
-extract:
+list.txt:
 	bash extract.sh > list.txt
