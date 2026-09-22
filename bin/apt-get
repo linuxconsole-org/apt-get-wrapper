@@ -65,7 +65,8 @@ cd $HOME
 install -d .local/bin
 cd .local
 
-URL="http://deb.debian.org/debian"$(grep ":$2:" $HOME/.local/list.txt |cut -d':' -f3,4)
+URL="http://deb.debian.org/debian"$(grep ":$2:" $HOME/.local/list.txt |cut -d':' -f3)
+
 [ "$URL" == "" ] && exit 4
 
 DEB=$(basename $URL)
